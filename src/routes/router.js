@@ -1,5 +1,5 @@
 const mainRoute = require('./main/main');
-const productsRoute = require('./products/products');
+const productsRoute = require('./products/get-products');
 const signupRoute = require('./users/signup');
 
 

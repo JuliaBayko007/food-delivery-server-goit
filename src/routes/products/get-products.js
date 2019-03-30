@@ -9,16 +9,25 @@ const getProductId = url => {
     return id;
 };
 
-
+console.log(1)
 
 const getProductRouter = (request, response) => {
-    const allProdPath = path.join(__dirname, "../../db/products/all-products.json");
-
+    console.log(__dirname);
+    const allProdPath = path.join("D:/Study/food-delivery-server-goit/src/db/products/all-products.json");
     const productsFS = fs.readFileSync(allProdPath, "utf-8");
     const products = JSON.parse(productsFS);
     const parsedUrl = url.parse(request.url);
     const id = getProductId(parsedUrl.path);
-    const qs = querystring.parse(parsedUrl.query)
+    const qs = querystring.parse(parsedUrl.query);
+    console.log(1);
+    request.on("data", (err, data)=>{
+        // if(err){ return response.writeHead(400, {"Content-Type": "json/application"})};
+        const body = data;
+        console.log(body)
+    })
+    // console.log(body)
+
+
 
 
     if (qs.category) {
@@ -41,7 +50,7 @@ const getProductRouter = (request, response) => {
             "Content-Type": "application/json"
         });
         response.write(productByCategoryJson);
-        response.end();
+        response.end("1");
     } else if (qs.ids) {
         const ids = qs.ids.split(',').map(product => Number(product));
         const getProductsByIds = products.filter(product => ids.includes(product.id));
@@ -60,7 +69,7 @@ const getProductRouter = (request, response) => {
             "Content-Type": "application/json"
         });
         response.write(getProductsByIdsJSON);
-        response.end();
+        response.end("2");
     } else if (!Number.isNaN(id) && typeof id === "number") {
         const getProductById = products.find(product => product.id === id)
         const getProductByIdJSON =
