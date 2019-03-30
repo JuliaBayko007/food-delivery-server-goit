@@ -2,7 +2,7 @@ const https = require('https');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-console.log (path);
+
 const getRoutHandler = require('./../routes/get-rout-handler');
 
 const morgan = require('morgan')
@@ -12,8 +12,7 @@ const logger = morgan('combined');
 
 const keyPath = path.join(__dirname, '..', 'cert/key-20190317-222128.pem');
 const certPath = path.join(__dirname, '..', 'cert/cert-20190317-222128.crt');
-console.log(keyPath);
-console.log(certPath);
+
 
 const sslOptions = {
     cert: fs.readFileSync(certPath),
@@ -26,6 +25,7 @@ const startServer = port => {
         const urlParsed = url.parse(request.url);
 
         const func = getRoutHandler(router, urlParsed.pathname) || router.default;
+        console.log(func);
 
         logger(request, response, () => func(request, response));
     });
